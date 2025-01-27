@@ -1,21 +1,21 @@
-// function loguear (){
-//     let correcto = false;
+function loguear (){
+let correcto = false;
 
-//     do{
-//         let nombre = prompt("Nombre de usuario");
-//         let contraseña = prompt("Contraseña");
+    do{
+        let nombre = prompt("Nombre de usuario");
+        let contraseña = prompt("Contraseña");
 
-//         if (nombre === "Agustín" && contraseña === "Tlon77"){
-//             alert ("Bienvenido a tu banco de confianza.");
-//             correcto = true; 
-//             break;
-//         } else{ 
-//             alert ("Ingresá un usuario y contraseña correctos."); 
-//         }
-//     }while (!correcto);
-// }
+        if (nombre === "Agustín" && contraseña === "Tlon55"){
+            alert ("Bienvenido a tu banco de confianza.");
+            correcto = true; 
+            break;
+        } else{ 
+            alert ("Ingresá un usuario y contraseña correctos."); 
+        }
+    }while (!correcto);
+}
 
-// loguear ();
+loguear ();
 
 
 function extraction() {
@@ -38,6 +38,7 @@ function extraction() {
             intentos++
             if (intentos > 3) {
                 alert("Vuelve a intentarlo más tarde");
+                break;
             }
         }
     } while (true);
