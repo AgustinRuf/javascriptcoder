@@ -1,3 +1,11 @@
+fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(users => {
+        console.log (users);
+        localStorage.setItem("usuarios", JSON.stringify(users));
+    })
+    .catch(error => console.error('Error:', error));
+
 function loguear() {
 
     let nombre = document.getElementById("nombre");
@@ -7,21 +15,30 @@ function loguear() {
     document.body.appendChild(parrafo);
 
     boton.addEventListener("click", () => {
-        if (nombre.value === "Agustín" && contraseña.value === "Tlon55") {
-            parrafo.textContent = "Bienvenido a tu banco de confianza.";
-            setTimeout(() => {
-                extraction ();
-            }, 1000);
+        let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+        let usuarioValido = usuarios.find(user => user.username === nombre.value);
+        if (usuarioValido) {
+            Swal.fire({
+                icon: "success",
+                title: `Hola, ${usuarioValido.name}`,
+                text: "Bienvenido/a a tu banco de confianza",
+            }).then(() => {
+                extraction();
+            });
         } else {
-            parrafo.textContent = "Ingresá un usuario y contraseña correctos.";
+            Swal.fire({
+                icon: "error",
+                title: "Usuario incorrecto",
+                text: "Verificá los datos e intentá de nuevo."
+            });
         }
     });
-};
+}
 
 loguear ();
 
 function extraction() {
-    let saldo = 75900;
+    let saldo = localStorage.getItem("saldo") ? parseInt(localStorage.getItem("saldo")) : 75900;
     let form = document.createElement("form");
     let inputMonto = document.createElement("input");
     let botonExtraccion = document.createElement("button");
@@ -40,7 +57,11 @@ function extraction() {
         event.preventDefault(); 
         let monto = parseInt(inputMonto.value);    
         if (!monto || monto <= 0) {
-            mensaje.textContent = "Ingresá un monto válido.";
+            Swal.fire({
+                icon: "warning",
+                title: "Monto inválido",
+                text: "Ingresá un monto válido."
+            });
             return;
             }
         if (monto <= saldo) {
@@ -50,7 +71,6 @@ function extraction() {
             let fecha = new Date().toLocaleDateString();
             extracciones.push({ monto, fecha });
             localStorage.setItem("extracciones", JSON.stringify(extracciones));
-
             setTimeout(() => {
                 historial ();
             }, 1000);
